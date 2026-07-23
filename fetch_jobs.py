@@ -112,6 +112,16 @@ def extract_tech_skills(description: str) -> str:
   # Return as a string representation of a list (Pandas can evaluate this back to a list easily)
   return json.dumps(list(set(found_skills)))
 
+def extract_primary_link(job: dict) -> str:
+  # SerpApi typically stores application links inside 'apply_options'
+  apply_options = job.get('apply_options', [])
+  if apply_options and isinstance(apply_options, list):
+    # Return the first available application URL
+    return apply_options[0].get('link', '')
+
+  # Fallback if there's a direct share/job link property
+  return job.get('share_link', '')
+
 
 # --- Writing Data ---
 with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
@@ -134,6 +144,7 @@ with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
     desc = job.get('description', '')
     edu_req = extract_education(desc)
     tech_skills = extract_tech_skills(desc)
+    job_link = extract_primary_link(job)  
 
     writer.writerow([
         today,
@@ -143,7 +154,8 @@ with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
         job.get('via'),
         job.get('detected_extensions', {}).get('posted_at'),
         edu_req,
-        tech_skills,  # Added list/array as a serialized string
+        tech_skills,
+        job_link,
         desc,
     ])
 
