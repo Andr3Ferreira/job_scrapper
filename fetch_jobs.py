@@ -21,6 +21,16 @@ params = {
 
 search = GoogleSearch(params)
 results = search.get_dict()
+
+# Check if SerpApi returned an account/quota error
+if 'error' in results:
+  print(f"[ERROR] SerpApi failure: {results['error']}")
+  # Exit gracefully or raise a clear error message
+  raise SystemExit(
+      'Pipeline stopped: Your SerpApi account has run out of searches or the'
+      ' API key is invalid.'
+  )
+
 jobs = results.get('jobs_results', [])
 
 today = date.today().isoformat()
