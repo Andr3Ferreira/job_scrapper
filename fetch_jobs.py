@@ -24,9 +24,9 @@ jobs = results.get("jobs_results", [])
 today = date.today().isoformat()
 print(f"[{today}] Total entry-level postings found: {len(jobs)}")
 
-file_exists = os.path.exists('raw_ottawa_jobs.csv')
+raw_filename = f'data/raw_ottawa_jobs_{today}.csv'
 
-with open('raw_ottawa_jobs.csv', 'a', newline='', encoding='utf-8') as file:
+with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
   writer = csv.writer(file)
 
 if not file_exists:
