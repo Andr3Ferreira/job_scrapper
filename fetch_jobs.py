@@ -10,7 +10,7 @@ api_key = os.environ.get('SERPAPI_KEY')
 # Define your target search parameters
 params = {
     "engine": "google_jobs",
-    "q": "junior accountant OR junior bookkeeper OR accountant assistant",
+    "q": "junior accountant OR junior bookkeeper OR accountanting assistant OR accountant assistant OR accounting clerk",
     "location": "Ottawa, Ontario, Canada",
     "hl": "en",
     "api_key": api_key # Free tier offers 100 searches/month
