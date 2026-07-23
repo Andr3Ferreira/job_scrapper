@@ -75,10 +75,10 @@ def clean_job_postings(input_filepath: str, output_filepath: str) -> pd.DataFram
   return df
 
 
+# In clean_job_postings.py, ensure file paths match:
 if __name__ == '__main__':
-  # Configuration variables
-  INPUT_FILE = 'raw_job_postings.csv'
-  OUTPUT_FILE = 'cleaned_job_postings.csv'
+  INPUT_FILE = 'raw_ottawa_jobs.csv'
+  OUTPUT_FILE = 'cleaned_ottawa_jobs.csv'
 
   cleaned_df = clean_job_postings(INPUT_FILE, OUTPUT_FILE)
 
