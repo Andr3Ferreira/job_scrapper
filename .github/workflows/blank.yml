@@ -1,0 +1,47 @@
+name: Clean Job Postings Pipeline
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+  # Optional: Run automatically on a schedule (e.g., every day at midnight UTC)
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  run-cleaning-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip' # Caches dependencies for faster runs
+
+      # 3. Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas
+
+      # 4. Run the Python data cleaning script
+      - name: Execute Cleaning Script
+        run: python clean_job_postings.py
+
+      # 5. Commit and push the cleaned data back to the repo (Optional)
+      - name: Commit and Push Cleaned Data
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          
+          # Add your output file path here
+          git add cleaned_job_postings.csv
+          
+          # Only commit if there are changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated job data cleaning: $(date +'%Y-%m-%d')" && git push)
