@@ -9,7 +9,11 @@ api_key = os.environ.get('SERPAPI_KEY')
 
 params = {
     'engine': 'google_jobs',
-    'q': 'junior accountant OR junior bookkeeper',
+    'q': ('"junior accountant" OR "junior bookkeeper" OR "accounting clerk" OR'
+        ' "accounts payable clerk" OR "accounts receivable clerk" OR "finance'
+        ' clerk" OR "bookkeeping assistant" OR "accounting assistant" OR'
+        ' "administrative bookkeeper" OR "junior accounting" OR "entry level'
+        ' accountant" OR "accountant assistant" OR "bookkeeper assistant"'),
     'location': 'Ottawa, Ontario, Canada',
     'hl': 'en',
     'api_key': api_key,
