@@ -77,8 +77,11 @@ def clean_job_postings(input_filepath: str, output_filepath: str) -> pd.DataFram
 
 # In clean_job_postings.py, ensure file paths match:
 if __name__ == '__main__':
-  INPUT_FILE = 'raw_ottawa_jobs.csv'
-  OUTPUT_FILE = 'cleaned_ottawa_jobs.csv'
+  today = date.today().isoformat()
+
+  # Point directly to the existing data/ folder files
+  INPUT_FILE = f'data/raw_ottawa_jobs_{today}.csv'
+  OUTPUT_FILE = f'data/cleaned_ottawa_jobs_{today}.csv'
 
   cleaned_df = clean_job_postings(INPUT_FILE, OUTPUT_FILE)
 
