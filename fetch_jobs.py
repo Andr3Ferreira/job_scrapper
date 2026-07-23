@@ -26,6 +26,9 @@ print(f"[{today}] Total entry-level postings found: {len(jobs)}")
 
 raw_filename = f'data/raw_ottawa_jobs_{today}.csv'
 
+# Define file_exists before checking it
+file_exists = os.path.exists(raw_filename)
+
 with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
   writer = csv.writer(file)
 
@@ -51,3 +54,5 @@ for job in jobs:
       job.get('detected_extensions', {}).get('posted_at'),
       job.get('description'),  # Captures the full job description text
   ])
+    
+print(f'Raw data successfully saved to {raw_filename}')
