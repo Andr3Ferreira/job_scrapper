@@ -1,15 +1,19 @@
 from serpapi import GoogleSearch
 import json
 import csv
+import os
 from datetime import date
+
+# Get API key securely from GitHub environment variables
+api_key = os.environ.get('SERPAPI_KEY')
 
 # Define your target search parameters
 params = {
     "engine": "google_jobs",
-    "q": "junior accountant OR junior bookkeeper",
-    "location": "Canada",
+    "q": "junior accountant OR junior bookkeeper OR accountant assistant",
+    "location": "Ottawa, Ontario, Canada",
     "hl": "en",
-    "api_key": "YOUR_SERPAPI_KEY" # Free tier offers 100 searches/month
+    "api_key": api_key # Free tier offers 100 searches/month
 }
 
 search = GoogleSearch(params)
@@ -20,14 +24,30 @@ jobs = results.get("jobs_results", [])
 today = date.today().isoformat()
 print(f"[{today}] Total entry-level postings found: {len(jobs)}")
 
-with open("canada_accounting_jobs.csv", "a", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
-    for job in jobs:
-        writer.writerow([
-            today,
-            job.get("title"),
-            job.get("company_name"),
-            job.get("location"),
-            job.get("via"), # Source job board (e.g., "via Indeed", "via Workopolis")
-            job.get("detected_extensions", {}).get("posted_at")
-        ])
+file_exists = os.path.exists('raw_ottawa_jobs.csv')
+
+with open('raw_ottawa_jobs.csv', 'a', newline='', encoding='utf-8') as file:
+  writer = csv.writer(file)
+
+if not file_exists:
+  writer.writerow([
+      'date_posted',
+      'job_title',
+      'company',
+      'location',
+      'source',
+      'posted_at_text',
+      'description',  # Added column
+  ])
+
+# 2. Update the row data being written
+for job in jobs:
+  writer.writerow([
+      today,
+      job.get('title'),
+      job.get('company_name'),
+      job.get('location'),
+      job.get('via'),
+      job.get('detected_extensions', {}).get('posted_at'),
+      job.get('description'),  # Captures the full job description text
+  ])
