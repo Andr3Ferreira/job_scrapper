@@ -36,11 +36,13 @@ jobs:
       - name: Clean and Categorize Ottawa Job Postings
         run: python clean_job_postings.py
 
-      - name: Commit and push updated datasets
+      - name: Commit and push versioned datasets
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
           
-          git add raw_ottawa_jobs.csv cleaned_ottawa_jobs.csv
+          # Stage the entire data/ directory (catches all versioned raw and clean files)
+          git add data/
           
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated Ottawa job fetch & clean: $(date +'%Y-%m-%d')" && git push)
+          # Commit only if there are changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Add versioned job datasets for $(date +'%Y-%m-%d')" && git push)
