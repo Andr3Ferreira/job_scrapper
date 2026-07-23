@@ -3,7 +3,8 @@ name: Ottawa Job Pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+  # Runs daily at 12:00 PM UTC (which is 8:00 AM in Ottawa during EDT)
+    - cron: '0 12 * * *'
 
 jobs:
   run-pipeline:
