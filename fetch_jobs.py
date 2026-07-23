@@ -138,6 +138,7 @@ with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
       'education_requirement',
       'technical_skills',
       'description',
+      'link',
   ])
 
   for job in jobs:
@@ -155,8 +156,8 @@ with open(raw_filename, 'w', newline='', encoding='utf-8') as file:
         job.get('detected_extensions', {}).get('posted_at'),
         edu_req,
         tech_skills,
-        job_link,
         desc,
+        job_link
     ])
 
 print(f'Raw data successfully saved with extractions to {raw_filename}')
